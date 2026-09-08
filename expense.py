@@ -52,7 +52,7 @@ def search_expenses():
         print("item not found")
     print(expense)
 def add_category():
-    c=input("enetr name of what you want to add:")
+    c=input("enetr name of what you want to add to dictionary :")
     d=input("value:")
     for i in expense:
         i[c]=d
