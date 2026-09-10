@@ -32,7 +32,7 @@ def update_item(args):
         if i["name"]==args.name:
             i["price"]=args.price
             break
-    else :-
+    else :
         print("item not found")
     print(expense)
 
