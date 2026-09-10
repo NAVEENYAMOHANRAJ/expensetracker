@@ -1,10 +1,9 @@
+import argparse
 expense=[{"name":"soap","price":120},{"name":"shampo","price":120}]
-def add():
+def add(args):
     expense1={}
-    namee=input("enter name:")
-    pricee=int(input("enter price"))
-    expense1["name"]=namee
-    expense1["price"]=pricee
+    expense1["name"]=args.name
+    expense1["price"]=args.price
     expense.append(expense1)
 def view_expense():
     for i in expense:
@@ -14,54 +13,76 @@ def total():
     for i in expense:
         t+=i["price"]
     print(t)
-def delete_item():
-    a=input("enetr item to be deleted:")
-    found=False
+def delete_item(args):
     for i in expense:
-        if i["name"]==a:
+        if i["name"]==args.name:
             expense.remove(i)
-            found=True
-        else:
-            print("item not found")
-    if found:
-        print("deleted succesfully ")
+            break
+    else:
+        print("item not found")
+    print(expense)
+def update_item(args):
+    for i in expense:
+        if i["name"]==args.name:
+            i["price"]=args.price
+            break
     else :
         print("item not found")
     print(expense)
-def update_item():
-    b=input("enter item name which you want to update:")
-    c=int(input("enter price :"))
-    found=False
+def search_expenses(args):
     for i in expense:
-        if i["name"]==b:
-            found=True
-    if found:
-        i["price"]=c
+        if i["name"]==args.name:
+            print(i["price"])
+            break
     else :
         print("item not found")
     print(expense)
-def search_expenses():
-    d= input("name of product to search :")
-    found=False
+def add_category(args):
     for i in expense:
-        if i["name"]==d:
-            found=True
-    if found:
-        print(i["price"])
-    else :
+        if i["name"]==args.pname:
+            i[args.name]=args.cname
+            break
+    else:
         print("item not found")
     print(expense)
-def add_category():
-    c=input("enetr name of what you want to add to dictionary :")
-    d=input("value:")
-    for i in expense:
-        i[c]=d
-    print(expense)
-add()
-print(expense)
-view_expense()
-total()
-delete_item()
-update_item()
-search_expenses()
-add_category()
+a=argparse.ArgumentParser()
+sub=a.add_subparsers(dest="command")
+#add product and expense
+add_product=sub.add_parser("add",help="add expenses")
+add_product.add_argument("--name",required=True,help="product name")
+add_product.add_argument("--price",type=int,required=True,help="product price")
+#view_expense
+view_expenses=sub.add_parser("view_expenses",help="add expenses")
+#total
+totall=sub.add_parser("totall",help="total of expenses")
+#delete
+delete_itema=sub.add_parser("delete_itema",help="enetr product name you want to delete")
+delete_itema.add_argument("--name",required=True)
+#update price
+update_price=sub.add_parser("update_price",help="enter name of product to update price")
+update_price.add_argument("--name",required=True)
+update_price.add_argument("--price",required=True,type=int)
+#search_expenses
+search_name=sub.add_parser("search_name",help="enter product name to find expense")
+search_name.add_argument("--name",required=True)
+#add_category(args)
+add_new=sub.add_parser("add_new",help="add new category")
+add_new.add_argument("--pname",required=True)
+add_new.add_argument("--name",required=True)
+add_new.add_argument("--cname",required=True)
+
+args=a.parse_args()
+if args.command=="add":
+    add(args)
+elif args.command=="view_expenses":
+    view_expense()
+elif args.command=="totall":
+    total()
+elif args.command=="delete_itema":
+    delete_item(args)
+elif args.command=="update_price":
+    update_item(args)
+elif args.command=="search_name":
+    search_expenses(args)
+elif args.command=="add_new":
+    add_category(args)
