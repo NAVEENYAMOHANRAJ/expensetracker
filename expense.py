@@ -42,6 +42,7 @@ def delete_item(args):
     else:
         print("item not found")
     print(expense)
+
    
 def update_item(args):
     for i in expense:
