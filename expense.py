@@ -1,13 +1,28 @@
 import argparse
+import os
+import json
 
-expense=[{"name":"soap","price":120},{"name":"shampo","price":120}]
+file="expense.json"
+
+def load_expense():
+    if os.path.exists(file):
+        with open(file,"r") as f:
+            return json.load(f)
+    return[]
+
+expense=load_expense()
+
+def save_expense():
+    with open(file,"w") as f:
+        json.dump(expense,f)
 
 def add(args):
     expense1={}
     expense1["name"]=args.name
     expense1["price"]=args.price
     expense.append(expense1)
-
+    save_expense()
+    
 def view_expense():
     for i in expense:
         print("name",i["name"],"price",i["price"])
@@ -22,20 +37,22 @@ def delete_item(args):
     for i in expense:
         if i["name"]==args.name:
             expense.remove(i)
+            save_expense()
             break
     else:
         print("item not found")
     print(expense)
-
+   
 def update_item(args):
     for i in expense:
         if i["name"]==args.name:
             i["price"]=args.price
+            save_expense()
             break
     else :
         print("item not found")
     print(expense)
-
+    
 def search_expenses(args):
     for i in expense:
         if i["name"]==args.name:
@@ -49,11 +66,12 @@ def add_category(args):
     for i in expense:
         if i["name"]==args.pname:
             i["categories"]=args.cname
+            save_expense()
             break
     else:
         print("item not found")
     print(expense)
-
+    
 a=argparse.ArgumentParser()
 
 sub=a.add_subparsers(dest="command")
