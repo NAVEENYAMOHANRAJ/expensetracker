@@ -1,8 +1,11 @@
 import argparse
+
 import sqlite3
+
 #to connect to mysql
 def connect_sql():
     return sqlite3.connect("expense.db")
+
 #to create a table
 def create_table():
      conn=connect_sql()
@@ -14,6 +17,7 @@ category varchar(50) ,
 date_of_entry date)""")
      conn.commit()
      conn.close()
+
 #to insert a row
 def insert_row(id,name,expense,category,date_of_entry):
     a=connect_sql()
@@ -22,6 +26,7 @@ def insert_row(id,name,expense,category,date_of_entry):
    values(?,?,?,?,?) """,(id,name,expense,category,date_of_entry))
     a.commit()
     a.close()
+
 #to update name
 def update_expense(expense,name):
     a=connect_sql()
@@ -30,12 +35,14 @@ def update_expense(expense,name):
     (expense,name))
     a.commit()
     a.close()
+
 def delete_expense(name):
     a=connect_sql()
     b=a.cursor()
     b.execute("""delete from expenses where name=?""", (name,))
     a.commit()
     a.close()
+
 def view_expense():
     a=connect_sql()
     b=a.cursor()
@@ -43,6 +50,7 @@ def view_expense():
     a=b.fetchall()
     for i in a:
         print(i)
+        
 #argparse
 argparser=argparse.ArgumentParser()
 sub=argparser.add_subparsers(dest="command")
