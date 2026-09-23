@@ -105,18 +105,26 @@ add_new=sub.add_parser("add_new",help="add new category name ")
 add_new.add_argument("--pname",required=True)
 add_new.add_argument("--cname",required=True)
 
-args=a.parse_args()
-if args.command=="add":
-    add(args)
-elif args.command=="view_expenses":
-    view_expense()
-elif args.command=="total_expense":
-    total()
-elif args.command=="delete_item_":
-    delete_item(args)
-elif args.command=="update_price":
-    update_item(args)
-elif args.command=="search_name":
-    search_expenses(args)
-elif args.command=="add_new":
-    add_category(args)
+if __name__ == "__main__":
+    args = a.parse_args()
+
+    if args.command == "add":
+        add(args)
+
+    elif args.command == "view_expenses":
+        view_expense()
+
+    elif args.command == "total_expense":
+        total()
+
+    elif args.command == "delete_item_":
+        delete_item(args)
+
+    elif args.command == "update_price":
+        update_item(args)
+
+    elif args.command == "search_name":
+        search_expenses(args)
+
+    elif args.command == "add_new":
+        add_category(args)
